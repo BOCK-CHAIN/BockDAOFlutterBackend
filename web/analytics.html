@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DAO Analytics Dashboard - ProjectX</title>
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/analytics-dashboard.css">
+    
+    <!-- Chart.js for data visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <img src="logo.svg" alt="ProjectX" width="40" height="40">
+                <h1>ProjectX DAO</h1>
+            </div>
+            <nav class="nav">
+                <a href="index.html">Home</a>
+                <a href="analytics.html" class="active">Analytics</a>
+                <a href="#proposals">Proposals</a>
+                <a href="#treasury">Treasury</a>
+                <a href="#governance">Governance</a>
+            </nav>
+        </header>
+
+        <main id="analytics-container">
+            <!-- Analytics dashboard will be inserted here by JavaScript -->
+            <div class="loading-message">
+                <i class="fas fa-spinner fa-spin"></i>
+                <p>Loading analytics dashboard...</p>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/analytics-dashboard.js"></script>
+    
+    <style>
+        /* Additional styles for this page */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid #e0e0e0;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo h1 {
+            margin: 0;
+            color: #333;
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .nav {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav a {
+            text-decoration: none;
+            color: #666;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .nav a:hover,
+        .nav a.active {
+            color: #2196F3;
+            background-color: #E3F2FD;
+        }
+
+        .loading-message {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+
+        .loading-message i {
+            font-size: 32px;
+            margin-bottom: 20px;
+            color: #2196F3;
+        }
+
+        .loading-message p {
+            font-size: 18px;
+            margin: 0;
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .nav {
+                gap: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .container {
+                padding: 0 10px;
+            }
+        }
+    </style>
+
+    <script>
+        // Initialize the dashboard with error handling
+        document.addEventListener('DOMContentLoaded', function() {
+            try {
+                // Remove loading message
+                const loadingMessage = document.querySelector('.loading-message');
+                if (loadingMessage) {
+                    loadingMessage.style.display = 'none';
+                }
+
+                // Check if the analytics dashboard was initialized
+                if (typeof window.analyticsDashboard === 'undefined') {
+                    console.warn('Analytics dashboard failed to initialize');
+                    showFallbackMessage();
+                }
+            } catch (error) {
+                console.error('Error initializing analytics page:', error);
+                showFallbackMessage();
+            }
+        });
+
+        function showFallbackMessage() {
+            const container = document.getElementById('analytics-container');
+            container.innerHTML = `
+                <div class="error-fallback">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <h2>Analytics Dashboard Unavailable</h2>
+                    <p>The analytics dashboard could not be loaded. This may be due to:</p>
+                    <ul>
+                        <li>Network connectivity issues</li>
+                        <li>API server not running</li>
+                        <li>Missing dependencies</li>
+                    </ul>
+                    <button onclick="location.reload()" class="btn btn-primary">
+                        <i class="fas fa-refresh"></i> Retry
+                    </button>
+                </div>
+            `;
+        }
+    </script>
+
+    <style>
+        .error-fallback {
+            text-align: center;
+            padding: 60px 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin: 20px;
+        }
+
+        .error-fallback i {
+            font-size: 48px;
+            color: #FF9800;
+            margin-bottom: 20px;
+        }
+
+        .error-fallback h2 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .error-fallback p {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .error-fallback ul {
+            text-align: left;
+            display: inline-block;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .error-fallback ul li {
+            margin-bottom: 8px;
+        }
+    </style>
+</body>
+</html>

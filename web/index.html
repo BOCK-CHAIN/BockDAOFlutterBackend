@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Block DAO</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div id="app">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <img src="logo.svg" alt="Block DAO Logo" class="logo">
+                    <h1>Block DAO</h1>
+                </div>
+                <div class="nav-menu">
+                    <a href="#" class="nav-link active" data-section="dashboard">Dashboard</a>
+                    <a href="#" class="nav-link" data-section="proposals">Proposals</a>
+                    <a href="#" class="nav-link" data-section="treasury">Treasury</a>
+                    <a href="#" class="nav-link" data-section="members">Members</a>
+                </div>
+                <div class="nav-actions">
+                    <button id="connectWallet" class="btn btn-primary">
+                        <i class="fas fa-wallet"></i> Connect Wallet
+                    </button>
+                    <div id="walletInfo" class="wallet-info" style="display: none;">
+                        <span id="walletAddress"></span>
+                        <span id="tokenBalance"></span>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="content-section active">
+                <div class="dashboard-header">
+                    <h2>DAO Dashboard</h2>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3 id="totalProposals">0</h3>
+                                <p>Total Proposals</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-vote-yea"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3 id="activeProposals">0</h3>
+                                <p>Active Proposals</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-coins"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3 id="treasuryBalance">0</h3>
+                                <p>Treasury Balance</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3 id="totalMembers">0</h3>
+                                <p>DAO Members</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-content">
+                    <div class="recent-activity">
+                        <h3>Recent Activity</h3>
+                        <div id="recentActivity" class="activity-list">
+                            <!-- Activity items will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Proposals Section -->
+            <section id="proposals" class="content-section">
+                <div class="section-header">
+                    <h2>Governance Proposals</h2>
+                    <button id="createProposalBtn" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Create Proposal
+                    </button>
+                </div>
+
+                <div class="proposals-filters">
+                    <div class="filter-group">
+                        <label>Status:</label>
+                        <select id="statusFilter">
+                            <option value="">All</option>
+                            <option value="1">Pending</option>
+                            <option value="2">Active</option>
+                            <option value="3">Passed</option>
+                            <option value="4">Rejected</option>
+                            <option value="5">Executed</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Type:</label>
+                        <select id="typeFilter">
+                            <option value="">All</option>
+                            <option value="1">General</option>
+                            <option value="2">Treasury</option>
+                            <option value="3">Technical</option>
+                            <option value="4">Parameter</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="proposalsList" class="proposals-list">
+                    <!-- Proposals will be populated by JavaScript -->
+                </div>
+            </section>
+
+            <!-- Treasury Section -->
+            <section id="treasury" class="content-section">
+                <div class="section-header">
+                    <h2>Treasury Management</h2>
+                    <button id="createTreasuryTxBtn" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> New Transaction
+                    </button>
+                </div>
+
+                <div class="treasury-overview">
+                    <div class="treasury-stats">
+                        <div class="treasury-card">
+                            <h3>Current Balance</h3>
+                            <div class="balance-amount" id="treasuryBalanceDetail">0 PX</div>
+                        </div>
+                        <div class="treasury-card">
+                            <h3>Multi-Sig Configuration</h3>
+                            <div class="multisig-info">
+                                <span id="requiredSigs">0</span> of <span id="totalSigners">0</span> signatures required
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="treasury-transactions">
+                    <h3>Transaction History</h3>
+                    <div id="treasuryTransactions" class="transactions-list">
+                        <!-- Treasury transactions will be populated by JavaScript -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Members Section -->
+            <section id="members" class="content-section">
+                <div class="section-header">
+                    <h2>DAO Members</h2>
+                    <div class="search-box">
+                        <input type="text" id="memberSearch" placeholder="Search members...">
+                        <i class="fas fa-search"></i>
+                    </div>
+                </div>
+
+                <div id="membersList" class="members-list">
+                    <!-- Members will be populated by JavaScript -->
+                </div>
+            </section>
+        </main>
+
+        <!-- Modals -->
+        <!-- Create Proposal Modal -->
+        <div id="createProposalModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Create New Proposal</h3>
+                    <span class="close">&times;</span>
+                </div>
+                <form id="createProposalForm">
+                    <div class="form-group">
+                        <label for="proposalTitle">Title</label>
+                        <input type="text" id="proposalTitle" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="proposalDescription">Description</label>
+                        <textarea id="proposalDescription" rows="4" required></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="proposalType">Type</label>
+                            <select id="proposalType" required>
+                                <option value="1">General</option>
+                                <option value="2">Treasury</option>
+                                <option value="3">Technical</option>
+                                <option value="4">Parameter</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="votingType">Voting Type</label>
+                            <select id="votingType" required>
+                                <option value="1">Simple Majority</option>
+                                <option value="2">Quadratic</option>
+                                <option value="3">Weighted</option>
+                                <option value="4">Reputation</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="proposalDuration">Duration (hours)</label>
+                            <input type="number" id="proposalDuration" min="1" value="168" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="proposalThreshold">Threshold (%)</label>
+                            <input type="number" id="proposalThreshold" min="1" max="100" value="50" required>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeModal('createProposalModal')">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Create Proposal</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Vote Modal -->
+        <div id="voteModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Cast Your Vote</h3>
+                    <span class="close">&times;</span>
+                </div>
+                <div id="voteModalContent">
+                    <!-- Vote content will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Treasury Transaction Modal -->
+        <div id="treasuryTxModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Create Treasury Transaction</h3>
+                    <span class="close">&times;</span>
+                </div>
+                <form id="treasuryTxForm">
+                    <div class="form-group">
+                        <label for="txRecipient">Recipient Address</label>
+                        <input type="text" id="txRecipient" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="txAmount">Amount</label>
+                        <input type="number" id="txAmount" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="txPurpose">Purpose</label>
+                        <textarea id="txPurpose" rows="3" required></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeModal('treasuryTxModal')">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Create Transaction</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Connection Status -->
+        <div id="connectionStatus" class="connection-status">
+            <i class="fas fa-circle"></i>
+            <span>Connecting...</span>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script src="js/dao-api.js"></script>
+    <script src="js/wallet.js"></script>
+    <script src="js/websocket.js"></script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Block DAO - Logo Test</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            color: white;
+        }
+        
+        .test-container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 3rem;
+            color: #333;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        
+        .logo-test {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .logo {
+            width: 64px;
+            height: 64px;
+        }
+        
+        h1 {
+            color: #8b5cf6;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 0;
+        }
+        
+        .color-palette {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+        
+        .color-swatch {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+        
+        .primary { background: #8b5cf6; }
+        .primary-dark { background: #7c3aed; }
+        .primary-light { background: #c084fc; }
+        .secondary { background: #6366f1; }
+        .accent { background: #a855f7; }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <div class="logo-test">
+            <img src="logo.svg" alt="Block DAO Logo" class="logo">
+            <h1>Block DAO</h1>
+        </div>
+        
+        <p>Purple-themed Block DAO interface with custom logo</p>
+        
+        <div class="color-palette">
+            <div class="color-swatch primary">Primary</div>
+            <div class="color-swatch primary-dark">Dark</div>
+            <div class="color-swatch primary-light">Light</div>
+            <div class="color-swatch secondary">Secondary</div>
+            <div class="color-swatch accent">Accent</div>
+        </div>
+        
+        <p style="margin-top: 2rem;">
+            <a href="index.html" style="color: #8b5cf6; text-decoration: none; font-weight: 600;">
+                → Go to Block DAO Interface
+            </a>
+        </p>
+    </div>
+</body>
+</html>

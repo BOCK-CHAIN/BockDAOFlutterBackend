@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Block DAO - Demo & Testing</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .demo-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+        
+        .demo-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .demo-card h4 {
+            margin-bottom: 1rem;
+            color: #333;
+        }
+        
+        .demo-card p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+        
+        .demo-credentials {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .demo-credentials h5 {
+            color: #856404;
+            margin-bottom: 0.5rem;
+        }
+        
+        .demo-credentials code {
+            background: #f8f9fa;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+        
+        .api-test {
+            background: #e7f3ff;
+            border: 1px solid #b3d9ff;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .api-test h5 {
+            color: #0056b3;
+            margin-bottom: 0.5rem;
+        }
+        
+        .test-result {
+            background: #f8f9fa;
+            border-radius: 4px;
+            padding: 0.5rem;
+            margin-top: 0.5rem;
+            font-family: monospace;
+            font-size: 0.9rem;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .test-success {
+            border-left: 4px solid #28a745;
+        }
+        
+        .test-error {
+            border-left: 4px solid #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <img src="logo.svg" alt="Block DAO Logo" class="logo">
+                    <h1>Block DAO - Demo</h1>
+                </div>
+                <div class="nav-menu">
+                    <a href="index.html" class="nav-link">
+                        <i class="fas fa-arrow-left"></i> Back to DAO
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="demo-section">
+                <h2>Demo & Testing Interface</h2>
+                <p>This page provides tools for testing the Block DAO web interface and API endpoints.</p>
+                
+                <div class="demo-credentials">
+                    <h5><i class="fas fa-key"></i> Demo Credentials</h5>
+                    <p>Use these test credentials to connect your wallet:</p>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div>
+                            <strong>Private Key:</strong><br>
+                            <code id="demoPrivateKey">a1b2c3d4e5f6789012345678901234567890123456789012345678901234567890</code>
+                        </div>
+                        <div>
+                            <strong>Address:</strong><br>
+                            <code id="demoAddress">1234567890abcdef1234567890abcdef12345678</code>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" onclick="copyDemoCredentials()">
+                        <i class="fas fa-copy"></i> Copy Credentials
+                    </button>
+                </div>
+            </div>
+
+            <div class="demo-section">
+                <h3>API Endpoint Tests</h3>
+                <p>Test the DAO API endpoints to ensure they're working correctly.</p>
+                
+                <div class="demo-grid">
+                    <div class="demo-card">
+                        <h4><i class="fas fa-heartbeat"></i> Health Check</h4>
+                        <p>Test basic API connectivity</p>
+                        <button class="btn btn-primary" onclick="testHealthCheck()">Test Health</button>
+                        <div id="healthResult" class="test-result" style="display: none;"></div>
+                    </div>
+                    
+                    <div class="demo-card">
+                        <h4><i class="fas fa-file-alt"></i> Proposals</h4>
+                        <p>Test proposal endpoints</p>
+                        <button class="btn btn-primary" onclick="testProposals()">Test Proposals</button>
+                        <div id="proposalsResult" class="test-result" style="display: none;"></div>
+                    </div>
+                    
+                    <div class="demo-card">
+                        <h4><i class="fas fa-coins"></i> Treasury</h4>
+                        <p>Test treasury endpoints</p>
+                        <button class="btn btn-primary" onclick="testTreasury()">Test Treasury</button>
+                        <div id="treasuryResult" class="test-result" style="display: none;"></div>
+                    </div>
+                    
+                    <div class="demo-card">
+                        <h4><i class="fas fa-users"></i> Members</h4>
+                        <p>Test member endpoints</p>
+                        <button class="btn btn-primary" onclick="testMembers()">Test Members</button>
+                        <div id="membersResult" class="test-result" style="display: none;"></div>
+                    </div>
+                    
+                    <div class="demo-card">
+                        <h4><i class="fas fa-plug"></i> WebSocket</h4>
+                        <p>Test real-time connection</p>
+                        <button class="btn btn-primary" onclick="testWebSocket()">Test WebSocket</button>
+                        <div id="websocketResult" class="test-result" style="display: none;"></div>
+                    </div>
+                    
+                    <div class="demo-card">
+                        <h4><i class="fas fa-coins"></i> Token Balance</h4>
+                        <p>Test token balance lookup</p>
+                        <input type="text" id="balanceAddress" placeholder="Enter address" style="width: 100%; margin-bottom: 0.5rem;">
+                        <button class="btn btn-primary" onclick="testTokenBalance()">Check Balance</button>
+                        <div id="balanceResult" class="test-result" style="display: none;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="demo-section">
+                <h3>Sample Data Generator</h3>
+                <p>Generate sample data for testing the interface.</p>
+                
+                <div class="demo-grid">
+                    <div class="demo-card">
+                        <h4><i class="fas fa-plus"></i> Create Sample Proposal</h4>
+                        <p>Create a test proposal with demo data</p>
+                        <button class="btn btn-success" onclick="createSampleProposal()">Create Proposal</button>
+                        <div id="sampleProposalResult" class="test-result" style="display: none;"></div>
+                    </div>
+                    
+                    <div class="demo-card">
+                        <h4><i class="fas fa-vote-yea"></i> Cast Sample Vote</h4>
+                        <p>Cast a test vote on an existing proposal</p>
+                        <input type="text" id="voteProposalId" placeholder="Proposal ID" style="width: 100%; margin-bottom: 0.5rem;">
+                        <select id="voteChoice" style="width: 100%; margin-bottom: 0.5rem;">
+                            <option value="1">Yes</option>
+                            <option value="2">No</option>
+                            <option value="3">Abstain</option>
+                        </select>
+                        <button class="btn btn-success" onclick="castSampleVote()">Cast Vote</button>
+                        <div id="sampleVoteResult" class="test-result" style="display: none;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="demo-section">
+                <h3>Interface Components Test</h3>
+                <p>Test individual UI components and interactions.</p>
+                
+                <div class="demo-grid">
+                    <div class="demo-card">
+                        <h4><i class="fas fa-bell"></i> Notifications</h4>
+                        <p>Test notification system</p>
+                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                            <button class="btn btn-success" onclick="showTestNotification('success')">Success</button>
+                            <button class="btn btn-danger" onclick="showTestNotification('error')">Error</button>
+                            <button class="btn btn-warning" onclick="showTestNotification('warning')">Warning</button>
+                            <button class="btn btn-secondary" onclick="showTestNotification('info')">Info</button>
+                        </div>
+                    </div>
+                    
+                    <div class="demo-card">
+                        <h4><i class="fas fa-window-maximize"></i> Modals</h4>
+                        <p>Test modal functionality</p>
+                        <button class="btn btn-primary" onclick="showTestModal()">Show Test Modal</button>
+                    </div>
+                    
+                    <div class="demo-card">
+                        <h4><i class="fas fa-chart-line"></i> Loading States</h4>
+                        <p>Test loading animations</p>
+                        <button class="btn btn-primary" onclick="showLoadingTest()">Show Loading</button>
+                        <div id="loadingTestArea" style="margin-top: 1rem;"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Test Modal -->
+        <div id="testModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Test Modal</h3>
+                    <span class="close" onclick="closeTestModal()">&times;</span>
+                </div>
+                <div style="padding: 1.5rem;">
+                    <p>This is a test modal to verify modal functionality is working correctly.</p>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeTestModal()">Close</button>
+                        <button type="button" class="btn btn-primary" onclick="closeTestModal()">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/dao-api.js"></script>
+    <script>
+        // Initialize API client
+        const daoAPI = new DAOAPI();
+        
+        // Demo credentials
+        function copyDemoCredentials() {
+            const privateKey = document.getElementById('demoPrivateKey').textContent;
+            const address = document.getElementById('demoAddress').textContent;
+            
+            navigator.clipboard.writeText(`Private Key: ${privateKey}\nAddress: ${address}`).then(() => {
+                showTestNotification('success', 'Demo credentials copied to clipboard!');
+            }).catch(() => {
+                showTestNotification('error', 'Failed to copy credentials');
+            });
+        }
+        
+        // API Tests
+        async function testHealthCheck() {
+            const resultDiv = document.getElementById('healthResult');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = 'Testing...';
+            resultDiv.className = 'test-result';
+            
+            try {
+                const result = await daoAPI.healthCheck();
+                resultDiv.innerHTML = JSON.stringify(result, null, 2);
+                resultDiv.classList.add('test-success');
+            } catch (error) {
+                resultDiv.innerHTML = `Error: ${error.message}`;
+                resultDiv.classList.add('test-error');
+            }
+        }
+        
+        async function testProposals() {
+            const resultDiv = document.getElementById('proposalsResult');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = 'Testing...';
+            resultDiv.className = 'test-result';
+            
+            try {
+                const proposals = await daoAPI.getProposals();
+                resultDiv.innerHTML = JSON.stringify(proposals, null, 2);
+                resultDiv.classList.add('test-success');
+            } catch (error) {
+                resultDiv.innerHTML = `Error: ${error.message}`;
+                resultDiv.classList.add('test-error');
+            }
+        }
+        
+        async function testTreasury() {
+            const resultDiv = document.getElementById('treasuryResult');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = 'Testing...';
+            resultDiv.className = 'test-result';
+            
+            try {
+                const treasury = await daoAPI.getTreasury();
+                resultDiv.innerHTML = JSON.stringify(treasury, null, 2);
+                resultDiv.classList.add('test-success');
+            } catch (error) {
+                resultDiv.innerHTML = `Error: ${error.message}`;
+                resultDiv.classList.add('test-error');
+            }
+        }
+        
+        async function testMembers() {
+            const resultDiv = document.getElementById('membersResult');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = 'Testing...';
+            resultDiv.className = 'test-result';
+            
+            try {
+                const members = await daoAPI.getMembers();
+                resultDiv.innerHTML = JSON.stringify(members, null, 2);
+                resultDiv.classList.add('test-success');
+            } catch (error) {
+                resultDiv.innerHTML = `Error: ${error.message}`;
+                resultDiv.classList.add('test-error');
+            }
+        }
+        
+        function testWebSocket() {
+            const resultDiv = document.getElementById('websocketResult');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = 'Connecting to WebSocket...';
+            resultDiv.className = 'test-result';
+            
+            try {
+                const ws = new WebSocket('ws://localhost:9000/dao/events');
+                
+                ws.onopen = () => {
+                    resultDiv.innerHTML = 'WebSocket connected successfully!';
+                    resultDiv.classList.add('test-success');
+                    
+                    // Close after 2 seconds
+                    setTimeout(() => {
+                        ws.close();
+                    }, 2000);
+                };
+                
+                ws.onerror = (error) => {
+                    resultDiv.innerHTML = `WebSocket error: ${error.message || 'Connection failed'}`;
+                    resultDiv.classList.add('test-error');
+                };
+                
+                ws.onclose = () => {
+                    if (resultDiv.classList.contains('test-success')) {
+                        resultDiv.innerHTML += '\nWebSocket closed successfully.';
+                    }
+                };
+                
+            } catch (error) {
+                resultDiv.innerHTML = `Error: ${error.message}`;
+                resultDiv.classList.add('test-error');
+            }
+        }
+        
+        async function testTokenBalance() {
+            const address = document.getElementById('balanceAddress').value || document.getElementById('demoAddress').textContent;
+            const resultDiv = document.getElementById('balanceResult');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = 'Checking balance...';
+            resultDiv.className = 'test-result';
+            
+            try {
+                const balance = await daoAPI.getTokenBalance(address);
+                resultDiv.innerHTML = `Balance for ${address}: ${balance} PX`;
+                resultDiv.classList.add('test-success');
+            } catch (error) {
+                resultDiv.innerHTML = `Error: ${error.message}`;
+                resultDiv.classList.add('test-error');
+            }
+        }
+        
+        // Sample data generators
+        async function createSampleProposal() {
+            const resultDiv = document.getElementById('sampleProposalResult');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = 'Creating sample proposal...';
+            resultDiv.className = 'test-result';
+            
+            const sampleProposal = {
+                title: `Test Proposal ${Date.now()}`,
+                description: 'This is a test proposal created from the demo interface to verify proposal creation functionality.',
+                proposal_type: 1, // General
+                voting_type: 1, // Simple majority
+                duration: 7 * 24 * 3600, // 7 days in seconds
+                threshold: 50,
+                metadata_hash: '',
+                private_key: document.getElementById('demoPrivateKey').textContent
+            };
+            
+            try {
+                const result = await daoAPI.createProposal(sampleProposal);
+                resultDiv.innerHTML = JSON.stringify(result, null, 2);
+                resultDiv.classList.add('test-success');
+            } catch (error) {
+                resultDiv.innerHTML = `Error: ${error.message}`;
+                resultDiv.classList.add('test-error');
+            }
+        }
+        
+        async function castSampleVote() {
+            const proposalId = document.getElementById('voteProposalId').value;
+            const choice = parseInt(document.getElementById('voteChoice').value);
+            const resultDiv = document.getElementById('sampleVoteResult');
+            
+            if (!proposalId) {
+                resultDiv.style.display = 'block';
+                resultDiv.innerHTML = 'Please enter a proposal ID';
+                resultDiv.className = 'test-result test-error';
+                return;
+            }
+            
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = 'Casting sample vote...';
+            resultDiv.className = 'test-result';
+            
+            const sampleVote = {
+                proposal_id: proposalId,
+                choice: choice,
+                weight: 100,
+                reason: 'Test vote from demo interface',
+                private_key: document.getElementById('demoPrivateKey').textContent
+            };
+            
+            try {
+                const result = await daoAPI.castVote(sampleVote);
+                resultDiv.innerHTML = JSON.stringify(result, null, 2);
+                resultDiv.classList.add('test-success');
+            } catch (error) {
+                resultDiv.innerHTML = `Error: ${error.message}`;
+                resultDiv.classList.add('test-error');
+            }
+        }
+        
+        // UI Component Tests
+        function showTestNotification(type, message) {
+            const messages = {
+                success: message || 'This is a success notification!',
+                error: message || 'This is an error notification!',
+                warning: message || 'This is a warning notification!',
+                info: message || 'This is an info notification!'
+            };
+            
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.innerHTML = `
+                <i class="fas fa-${getNotificationIcon(type)}"></i>
+                <span>${messages[type]}</span>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 5000);
+        }
+        
+        function getNotificationIcon(type) {
+            const icons = {
+                success: 'check-circle',
+                error: 'exclamation-circle',
+                warning: 'exclamation-triangle',
+                info: 'info-circle'
+            };
+            return icons[type] || 'info-circle';
+        }
+        
+        function showTestModal() {
+            document.getElementById('testModal').classList.add('active');
+        }
+        
+        function closeTestModal() {
+            document.getElementById('testModal').classList.remove('active');
+        }
+        
+        function showLoadingTest() {
+            const testArea = document.getElementById('loadingTestArea');
+            testArea.innerHTML = `
+                <div class="loading">
+                    <i class="fas fa-spinner"></i>
+                    Loading test data...
+                </div>
+            `;
+            
+            setTimeout(() => {
+                testArea.innerHTML = `
+                    <div style="color: #28a745;">
+                        <i class="fas fa-check"></i>
+                        Loading complete!
+                    </div>
+                `;
+            }, 3000);
+        }
+        
+        // Generate new demo credentials
+        function generateNewCredentials() {
+            const chars = '0123456789abcdef';
+            let privateKey = '';
+            let address = '';
+            
+            for (let i = 0; i < 64; i++) {
+                privateKey += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            
+            for (let i = 0; i < 40; i++) {
+                address += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            
+            document.getElementById('demoPrivateKey').textContent = privateKey;
+            document.getElementById('demoAddress').textContent = address;
+            
+            showTestNotification('success', 'New demo credentials generated!');
+        }
+        
+        // Add generate button
+        document.addEventListener('DOMContentLoaded', () => {
+            const credentialsSection = document.querySelector('.demo-credentials');
+            const generateBtn = document.createElement('button');
+            generateBtn.className = 'btn btn-secondary';
+            generateBtn.innerHTML = '<i class="fas fa-refresh"></i> Generate New';
+            generateBtn.onclick = generateNewCredentials;
+            generateBtn.style.marginLeft = '1rem';
+            
+            credentialsSection.querySelector('button').parentNode.appendChild(generateBtn);
+        });
+    </script>
+</body>
+</html>

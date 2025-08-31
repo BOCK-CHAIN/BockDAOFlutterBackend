@@ -1,0 +1,52 @@
+[
+  {
+    "id": "TC001",
+    "title": "get_block_by_hashorid",
+    "description": "Verify that the API endpoint GET /block/{hashorid} correctly returns block information when provided with a valid block hash or height. Test with valid, invalid, and non-existent hashorid values."
+  },
+  {
+    "id": "TC002",
+    "title": "get_transaction_by_hash",
+    "description": "Verify that the API endpoint GET /tx/{hash} returns the correct transaction information for a valid transaction hash. Test with valid, invalid, and non-existent transaction hashes."
+  },
+  {
+    "id": "TC003",
+    "title": "submit_new_transaction",
+    "description": "Verify that the API endpoint POST /tx accepts a new transaction in binary format and successfully submits it to the blockchain. Test with valid and malformed transaction data."
+  },
+  {
+    "id": "TC004",
+    "title": "get_all_governance_proposals",
+    "description": "Verify that the API endpoint GET /dao/proposals returns a list of all governance proposals with correct data structure and content."
+  },
+  {
+    "id": "TC005",
+    "title": "create_new_governance_proposal",
+    "description": "Verify that the API endpoint POST /dao/proposal allows creation of a new governance proposal with valid input data including title, description, proposal type, voting type, duration, threshold, and private key."
+  },
+  {
+    "id": "TC006",
+    "title": "cast_vote_on_proposal",
+    "description": "Verify that the API endpoint POST /dao/vote allows a member to cast a vote on a proposal with valid proposal ID, choice, weight, and private key. Validate vote tallying and error handling for invalid inputs."
+  },
+  {
+    "id": "TC007",
+    "title": "get_treasury_status_and_balance",
+    "description": "Verify that the API endpoint GET /dao/treasury returns the current treasury status and balance accurately."
+  },
+  {
+    "id": "TC008",
+    "title": "create_new_treasury_transaction",
+    "description": "Verify that the API endpoint POST /dao/treasury/transaction allows creation of a new treasury transaction with valid recipient, amount, purpose, and private key. Validate multi-signature requirements."
+  },
+  {
+    "id": "TC009",
+    "title": "get_token_balance_for_address",
+    "description": "Verify that the API endpoint GET /dao/token/balance/{address} returns the correct token balance for a given address."
+  },
+  {
+    "id": "TC010",
+    "title": "delegate_voting_power_to_address",
+    "description": "Verify that the API endpoint POST /dao/delegate allows a member to delegate voting power to another address with valid delegate address, duration, and private key."
+  }
+]
